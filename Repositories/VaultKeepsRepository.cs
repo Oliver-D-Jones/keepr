@@ -26,15 +26,17 @@ namespace Keepr.Repositories
             ";
             return _db.Query<VaultKeepViewModel> (sql, new { vaultId, userId });
         }
-        internal IEnumerable<VaultKeepViewModel> Create (int vaultId, int keepId,string userId)
+        internal RefVaultKeep Create (RefVaultKeep newVaultKeep)
         {
+            
             string sql = @"
             INSERT INTO
                 vaultkeeps (vaultId, keepId, userId)
             VALUES
-                (@vaultId,@keepId,@userId)
-            ";
-            return _db.Query<VaultKeepViewModel> (sql, new { vaultId,keepId, userId });
+                (@vaultId,@keepId,@userId);
+            SELECT LAST_INSERT_ID();";
+            newVaultKeep.Id = _db.ExecuteScalar<int> (sql, newVaultKeep);
+            return newVaultKeep;
         }
     }
 }

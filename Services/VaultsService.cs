@@ -17,9 +17,13 @@ namespace Keepr.Services
         {
             return _repo.Get (userId);
         }
-        public Vault Create(Vault newVault)
+        public Vault GetById (int id, string userId)
         {
-            return _repo.Create(newVault);
+            return _repo.GetById (id, userId);
+        }
+        public Vault Create (Vault newVault)
+        {
+            return _repo.Create (newVault);
         }
     }
 }

@@ -28,6 +28,11 @@ namespace Keepr.Repositories
             return _db.Query<VaultKeepViewModel> (sql, new { userId });
         }
 
+        internal Keep GetById (int id)
+        {
+            string sql = "SELECT * FROM Keeps WHERE id = @Id;";
+            return _db.QueryFirstOrDefault<Keep> (sql, new { id });
+        }
         internal Keep Create (Keep newKeep)
         {
             string sql = @"INSERT INTO keeps
@@ -38,5 +43,22 @@ namespace Keepr.Repositories
             newKeep.Id = _db.ExecuteScalar<int> (sql, newKeep);
             return newKeep;
         }
+        public bool Update (Keep updatedKeep)
+        {
+            string sql = @"UPDATE Keeps
+            SET 
+            name = @name,
+            description = @description,
+            userId = @userId,
+            img = @img,
+            isPrivate = @isPrivate,
+            views = @views,
+            shares = @shares,
+            keeps = @keeps
+            WHERE id = @id LIMIT 1;";
+            int rowsAffected = _db.Execute (sql, updatedKeep);
+            return rowsAffected == 1;
+        }
+        
     }
 }

@@ -72,6 +72,25 @@ namespace Keepr.Controllers
                 return BadRequest (error.Message);
             }
         }
+        [Authorize]
+        [HttpPut("{id}")]
+        public ActionResult<Keep> Update(int id, [FromBody] Keep updatedKeep)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                
+                if (user == null)
+                {
+                    throw new Exception("Please Log In.");
+                }
+                return Ok(_ks.Update(updatedKeep,user.Value));
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
 
     }
 }

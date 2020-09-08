@@ -28,6 +28,15 @@
             >My-Dashboard</router-link
           >
         </li>
+        <li
+          class="nav-item"
+          v-if="$auth.isAuthenticated"
+          :class="{ active: $route.name == 'mykeeps' }"
+        >
+          <router-link class="nav-link" :to="{ name: 'mykeeps' }"
+            >My-Keeps</router-link
+          >
+        </li>
       </ul>
       <span class="navbar-text">
         <button

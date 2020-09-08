@@ -39,8 +39,9 @@ namespace Keepr.Controllers
                 return BadRequest(err.Message);
             }
         }
+        
         [HttpPost]
-        public ActionResult<IEnumerable<VaultKeepViewModel>> Create(int vaultId,int keepId)
+        public ActionResult<RefVaultKeep> Create([FromBody] RefVaultKeep newVaultKeep)
         {
             try
             {
@@ -49,13 +50,33 @@ namespace Keepr.Controllers
                 {
                     throw new Exception("You must be logged in.");
                 }
-                return Ok(_vks.Create(vaultId,keepId,user.Value));
+                newVaultKeep.UserId = user.Value;
+                return Ok(_vks.Create(newVaultKeep));
             }
-            catch (Exception err)
+            catch (System.Exception err)
             {
                 return BadRequest(err.Message);
             }
         }
+
+        // [HttpPost]
+        // public ActionResult<VaultKeepViewModel> Create([FromBody] VaultKeepViewModel newVaultKeep)
+        // {
+        //     try
+        //     {
+        //         Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+        //         if (user == null)
+        //         {
+        //             throw new Exception("You must be logged in.");
+        //         }
+        //         newVaultKeep.UserId = user.Value;
+        //         return Ok(_vks.Create(newVaultKeep));
+        //     }
+        //     catch (Exception err)
+        //     {
+        //         return BadRequest(err.Message);
+        //     }
+        // }
 
     }
 }

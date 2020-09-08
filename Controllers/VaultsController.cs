@@ -40,6 +40,24 @@ namespace Keepr.Controllers
             };
         }
 
+        [HttpGet ("{id}")]
+        public ActionResult<Vault> GetById (int id)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception ("Please Make Sure You Are Logged In.");
+                }
+                return Ok (_vs.GetById (id, user.Value));
+            }
+            catch (Exception e)
+            {
+                return BadRequest (e.Message);
+            };
+        }
+
         [HttpPost]
         public ActionResult<Vault> Create ([FromBody] Vault newVault)
         {

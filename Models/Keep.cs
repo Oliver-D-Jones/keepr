@@ -6,12 +6,16 @@ namespace Keepr.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         [Required]
         public string Description { get; set; }
+
         [Required]
         public string Img { get; set; }
+
         [Required]
         public int IsPrivate { get; set; }
         public int Views { get; set; }
@@ -22,5 +26,6 @@ namespace Keepr.Models
     public class VaultKeepViewModel : Keep
     {
         public int VaultKeepId { get; set; }
+
     }
 }
