@@ -23,14 +23,32 @@ namespace Keepr.Services
         {
             return _repo.Get (vaultId, userId);
         }
-
+        public RefVaultKeep GetById (int id)
+        {
+            RefVaultKeep foundVK = _repo.GetById (id);
+            if (foundVK == null)
+            {
+                throw new Exception ("Invalid RefVaultKeep Id");
+            }
+            return foundVK;
+        }
         internal RefVaultKeep Create (RefVaultKeep newVaultKeep)
         {
-            Keep foundKeep = _keepsService.GetById (newVaultKeep.VaultId);
+            Keep foundKeep = _keepsService.GetById (newVaultKeep.KeepId);
             foundKeep.Keeps = foundKeep.Keeps + 1;
-            string nonAuthor = "nonAuthor";
-            _keepsService.Update (foundKeep,nonAuthor);
+            string nonAuthor = "nonAuthor123";
+            _keepsService.Update (foundKeep, nonAuthor);
             return _repo.Create (newVaultKeep);
+        }
+        public string Delete (string userId, int id)
+        {
+            GetById (id);
+            bool delorted = _repo.Delete (userId, id);
+            if (!delorted)
+            {
+                throw new Exception ("Invalid Id or not authorized.");
+            }
+            return "Removed From Vault.";
         }
     }
 }

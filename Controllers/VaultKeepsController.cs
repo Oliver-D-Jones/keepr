@@ -59,24 +59,23 @@ namespace Keepr.Controllers
             }
         }
 
-        // [HttpPost]
-        // public ActionResult<VaultKeepViewModel> Create([FromBody] VaultKeepViewModel newVaultKeep)
-        // {
-        //     try
-        //     {
-        //         Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-        //         if (user == null)
-        //         {
-        //             throw new Exception("You must be logged in.");
-        //         }
-        //         newVaultKeep.UserId = user.Value;
-        //         return Ok(_vks.Create(newVaultKeep));
-        //     }
-        //     catch (Exception err)
-        //     {
-        //         return BadRequest(err.Message);
-        //     }
-        // }
+      [HttpDelete("{id}")]
+        public ActionResult<string> Delete(int id)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Log In.");
+                }
+                return Ok(_vks.Delete(user.Value, id));
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
 
     }
 }

@@ -20,11 +20,23 @@ namespace Keepr.Repositories
             SELECT * FROM Vaults WHERE userId = @userId";
             return _db.Query<Vault> (sql, new { userId });
         }
-        internal Vault GetById (int vaultId, string userId)
+        internal Vault GetById (int vaultId)
         {
             string sql = @"
-            SELECT * FROM Vaults WHERE Id = @vaultId AND userId = @userId";
-            return _db.QueryFirstOrDefault<Vault> (sql, new { vaultId, userId });
+            SELECT * FROM Vaults WHERE Id = @vaultId";
+            return _db.QueryFirstOrDefault<Vault> (sql, new { vaultId });
+        }
+        internal IEnumerable<VaultKeepViewModel> GetKeepsByVaultId (int vaultId, string userId)
+        {
+            string sql = @"
+            SELECT
+            k.*,
+            vk.id as vaultKeepId
+            FROM vaultkeeps vk
+            INNER JOIN keeps k ON k.id = vk.keepId
+            WHERE (vaultId = @vaultId AND vk.userId = @userId);
+            ";
+            return _db.Query<VaultKeepViewModel> (sql, new { vaultId, userId });
         }
         internal Vault Create (Vault newVault)
         {
@@ -35,6 +47,12 @@ namespace Keepr.Repositories
             SELECT LAST_INSERT_ID();";
             newVault.Id = _db.ExecuteScalar<int> (sql, newVault);
             return newVault;
+        }
+        public bool Delete (string userId, int id)
+        {
+            string sql = "DELETE FROM vaults WHERE id = @Id AND userId = @userId LIMIT 1;";
+            int rowsAffected = _db.Execute (sql, new { userId, id });
+            return rowsAffected == 1;
         }
     }
 }

@@ -20,9 +20,9 @@ namespace Keepr.Services
         public Keep GetById (int id)
         {
             Keep foundKeep = _repo.GetById (id);
-            if (foundKeep == null)
+            if (foundKeep.IsPrivate)
             {
-                throw new Exception ("Invalid Keep Id");
+                throw new Exception ("Invalid Keep Id/Not Public.");
             }
             return foundKeep;
         }
@@ -45,12 +45,19 @@ namespace Keepr.Services
                 updatedKeep.Keeps = foundKeep.Keeps;
                 updatedKeep.Shares = foundKeep.Shares;
                 // only allow user to change these
-                updatedKeep.Name = updatedKeep.Name == null ? updatedKeep.Name : foundKeep.Name;
-                updatedKeep.Description = updatedKeep.Description == null ? updatedKeep.Description : foundKeep.Description;
-                updatedKeep.Img = updatedKeep.Img == null ? updatedKeep.Img : foundKeep.Img;
-                updatedKeep.IsPrivate = updatedKeep.IsPrivate != foundKeep.IsPrivate ? updatedKeep.IsPrivate : foundKeep.IsPrivate;
+                updatedKeep.Name = updatedKeep.Name == null ? foundKeep.Name : updatedKeep.Name;
+                updatedKeep.Description = updatedKeep.Description == null ? foundKeep.Description : updatedKeep.Description;
+                updatedKeep.Img = updatedKeep.Img == null ? foundKeep.Img : updatedKeep.Img;
+                if (foundKeep.IsPrivate && !updatedKeep.IsPrivate)
+                {
+                    updatedKeep.IsPrivate = false;
+                }
+                else
+                {
+                    updatedKeep.IsPrivate = foundKeep.IsPrivate;
+                }
             }
-            else
+            else if (userClaim == "nonAuthor123")
             {
                 updatedKeep.Name = foundKeep.Name;
                 updatedKeep.Description = foundKeep.Description;
@@ -61,6 +68,10 @@ namespace Keepr.Services
                 updatedKeep.Keeps = updatedKeep.Keeps > foundKeep.Keeps ? foundKeep.Keeps + 1 : foundKeep.Keeps;
                 updatedKeep.Shares = updatedKeep.Shares > foundKeep.Shares ? foundKeep.Shares + 1 : foundKeep.Shares;
             }
+            else
+            {
+                throw new Exception ("Not Owner Of Vault!");
+            }
 
             bool updated = _repo.Update (updatedKeep);
             if (!updated)
@@ -68,6 +79,16 @@ namespace Keepr.Services
                 throw new Exception ("Unable To Update.");
             }
             return updatedKeep;
+        }
+        public string Delete (string userId, int id)
+        {
+            GetById (id);
+            bool delorted = _repo.Delete (userId, id);
+            if (!delorted)
+            {
+                throw new Exception ("Not the author of Keep!");
+            }
+            return "Keep Deleted!";
         }
     }
 }

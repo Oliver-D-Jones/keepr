@@ -1,6 +1,17 @@
 <template>
-  <div class="mykeeps container-fluid" v-if="userKeeps !=[]">
-    <div class="row">
+  <div class="mykeeps container-fluid">
+    <div class="row justify-content-center pt-3" v-if="userKeeps ==''">
+      <div class="col-12" style="text-align:center;">
+        <h4
+          class=""
+          v-if="$auth.isAuthenticated"
+          :class="{ active: $route.name == 'dashboard' }"
+        >
+          <router-link class="bg-dark text-danger p-2 rounded" :to="{ name: 'dashboard' }">No Keeps Yet. Click Here To Start Making Some Keeps!</router-link>
+        </h4>
+      </div>
+    </div>
+    <div class="row" v-else>
       <div class="col-3" v-for="mk in userKeeps" :key="mk.id">
         <div class="card bg-dark text-light">
           <div class="col-12" style="text-align: end;">
@@ -9,11 +20,6 @@
               class="btn btn-warning btn-sm"
               @click="makePublic(mk.id)"
             >Make Public</button>
-            <button
-              v-else-if="mk.isPrivate == 0"
-              class="btn btn-warning btn-sm"
-              @click="makePrivate(mk.id)"
-            >Make Private</button>
           </div>
           <img :src="mk.img" class="card-img-top img-fluid" alt />
           <div class="row justify-content-center text-center mt-1 py-1">

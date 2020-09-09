@@ -43,6 +43,12 @@ namespace Keepr.Repositories
             newKeep.Id = _db.ExecuteScalar<int> (sql, newKeep);
             return newKeep;
         }
+        public bool Delete(string userId, int id)
+        {
+            string sql = "DELETE FROM keeps WHERE id = @Id AND userId = @userId LIMIT 1;";
+            int rowsAffected = _db.Execute(sql, new { userId, id });
+            return rowsAffected == 1;
+        }
         public bool Update (Keep updatedKeep)
         {
             string sql = @"UPDATE Keeps
@@ -59,6 +65,6 @@ namespace Keepr.Repositories
             int rowsAffected = _db.Execute (sql, updatedKeep);
             return rowsAffected == 1;
         }
-        
+
     }
 }

@@ -53,18 +53,31 @@ namespace Keepr.Controllers
             }
         }
 
+        [HttpGet ("{id}")]
+        public ActionResult<Keep> GetById (int id)
+        {
+            try
+            {
+                return Ok (_ks.GetById (id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest (e.Message);
+            };
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult<Keep> Create ([FromBody] Keep newKeep)
         {
             try
             {
-                Claim userId = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
-                if (userId == null)
+                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
+                if (user == null)
                 {
                     throw new Exception ("User Id 'userId', is incorrect, make sure you're currently logged in");
                 }
-                newKeep.UserId = userId.Value;
+                newKeep.UserId = user.Value;
                 return Ok (_ks.Create (newKeep));
             }
             catch (Exception error)
@@ -72,24 +85,46 @@ namespace Keepr.Controllers
                 return BadRequest (error.Message);
             }
         }
+
         [Authorize]
-        [HttpPut("{id}")]
-        public ActionResult<Keep> Update(int id, [FromBody] Keep updatedKeep)
+        [HttpPut ("{id}")]
+        public ActionResult<Keep> Update (int id, [FromBody] Keep updatedKeep)
         {
             try
             {
-                Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                
+                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
+
                 if (user == null)
                 {
-                    throw new Exception("Please Log In.");
+                    throw new Exception ("Please Log In.");
                 }
-                return Ok(_ks.Update(updatedKeep,user.Value));
+                updatedKeep.Id = id;
+                return Ok (_ks.Update (updatedKeep, user.Value));
             }
             catch (System.Exception err)
             {
-                return BadRequest(err.Message);
+                return BadRequest (err.Message);
             }
+        }
+
+        [Authorize]
+        [HttpDelete ("{id}")]
+        public ActionResult<Keep> Delete (int id)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception ("Please Make Sure You Are Logged In.");
+                }
+
+                return Ok (_ks.Delete (user.Value, id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest (e.Message);
+            };
         }
 
     }
