@@ -58,24 +58,6 @@ namespace Keepr.Controllers
             };
         }
 
-        [HttpGet ("{id}/keeps")]
-        public ActionResult<IEnumerable<VaultKeepViewModel>> GetKeepsByVaultId (int id)
-        {
-            try
-            {
-                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
-                if (user == null)
-                {
-                    throw new Exception ("You must be logged in.");
-                }
-                return Ok (_vs.GetKeepsByVaultId (id, user.Value));
-            }
-            catch (Exception err)
-            {
-                return BadRequest (err.Message);
-            }
-        }
-
         [HttpPost]
         public ActionResult<Vault> Create ([FromBody] Vault newVault)
         {
@@ -115,5 +97,22 @@ namespace Keepr.Controllers
             };
         }
 
+        [HttpGet ("{id}/keeps")]
+        public ActionResult<IEnumerable<VaultKeepViewModel>> GetKeepsByVaultId (int id)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst (ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception ("You must be logged in.");
+                }
+                return Ok (_vs.GetKeepsByVaultId (id, user.Value));
+            }
+            catch (Exception err)
+            {
+                return BadRequest (err.Message);
+            }
+        }
     }
 }

@@ -26,10 +26,10 @@ namespace Keepr.Repositories
             ";
             return _db.Query<VaultKeepViewModel> (sql, new { vaultId, userId });
         }
-        internal RefVaultKeep GetById (int id)
+        internal VaultKeep GetById (int id)
         {
             string sql = "SELECT * FROM vaultkeeps WHERE id = @Id;";
-            return _db.QueryFirstOrDefault<RefVaultKeep> (sql, new { id });
+            return _db.QueryFirstOrDefault<VaultKeep> (sql, new { id });
         }
         public bool Delete(string userId, int id)
         {
@@ -37,7 +37,7 @@ namespace Keepr.Repositories
             int rowsAffected = _db.Execute(sql, new { userId, id });
             return rowsAffected == 1;
         }
-        internal RefVaultKeep Create (RefVaultKeep newVaultKeep)
+        internal VaultKeep Create (VaultKeep newVaultKeep)
         {
 
             string sql = @"

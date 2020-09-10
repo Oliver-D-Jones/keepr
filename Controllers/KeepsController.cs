@@ -118,7 +118,6 @@ namespace Keepr.Controllers
                 {
                     throw new Exception ("Please Make Sure You Are Logged In.");
                 }
-
                 return Ok (_ks.Delete (user.Value, id));
             }
             catch (Exception e)

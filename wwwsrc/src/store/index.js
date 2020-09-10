@@ -33,8 +33,8 @@ export default new Vuex.Store({
     addMyKeep(state, keep) {
       state.userKeeps.unshift(keep)
     },
-    updatePublicKeep(state,keep){
-      let keepIndex = state.publicKeeps.findIndex(k=>{
+    updatePublicKeep(state, keep) {
+      let keepIndex = state.publicKeeps.findIndex(k => {
         return k.id == keep.id
       })
       state.publicKeeps[keepIndex] = keep;
@@ -89,11 +89,22 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    viewKeep({ commit }, KeepData) {
+    updateKeep({ commit }, KeepData) {
       try {
         api.put('keeps/' + KeepData.id, KeepData)
           .then(res => {
-            commit("updatePublicKeep",res.data);
+            commit("updatePublicKeep", res.data);
+            return res.data;
+          })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    deleteKeep({ commit, dispatch }, keepId) {
+      try {
+        api.delete('keeps/' + keepId)
+          .then(res => {
+            dispatch("getUserKeeps")
             return res.data;
           })
       } catch (error) {
@@ -126,7 +137,6 @@ export default new Vuex.Store({
         api.get('vaults/' + vaultId)
           .then(res => {
             commit("setActiveVault", res.data)
-            console.log("ACTIVE VAULT", res.data);
           })
       } catch (error) {
         console.error(error);
@@ -138,10 +148,9 @@ export default new Vuex.Store({
 
     getVaultKeeps({ commit }, vaultId) {
       try {
-        api.get('vaultkeeps/' + vaultId)
+        api.get('vaults/' + vaultId + '/keeps')
           .then(res => {
             commit('setVaultKeeps', res.data)
-            console.log(res.data);
           })
       } catch (error) {
         console.error(error);
@@ -152,18 +161,16 @@ export default new Vuex.Store({
         api.post('vaultkeeps', vk)
           .then(res => {
             commit('addUserVault', res.data)
-            console.log(res.data);
           })
       } catch (error) {
         console.error(error);
       }
     },
-    removeFromVault({ commit }, vkId) {
+    removeFromVault({ commit, dispatch }, vkId,vltId) {
       try {
         api.delete('vaultkeeps/' + vkId)
           .then(res => {
-            // commit('removeFromActiveVault', vkId)
-            console.log(res.data);
+            dispatch("getVaultKeeps",vltId)
           })
       } catch (error) {
         console.error(error);

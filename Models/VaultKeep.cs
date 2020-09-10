@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Keepr.Models
 {
-    public class RefVaultKeep
+    public class VaultKeep
     {
         public int Id { get; set; }
 

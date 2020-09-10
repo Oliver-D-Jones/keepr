@@ -41,9 +41,10 @@ namespace Keepr.Services
             bool delorted = _repo.Delete (userId, id);
             if (!delorted)
             {
-                throw new Exception ("Not the author of Keep!");
+                throw new Exception ("Not the author of Vault!");
             }
             return "Vault Deleted!";
         }
+        
     }
 }

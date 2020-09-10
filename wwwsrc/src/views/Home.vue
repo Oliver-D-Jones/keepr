@@ -1,15 +1,13 @@
 <template>
   <div class="home">
     <div class="container-fluid">
-      <div class="row">
-        <Keep :key="'homeKeep'" />
-      </div>
+      <PublicKeeps :key="'homeKeep'" />
     </div>
   </div>
 </template>
 
 <script>
-import Keep from "../components/keep";
+import PublicKeeps from "../components/publickeeps";
 export default {
   name: "home",
   data() {
@@ -26,11 +24,18 @@ export default {
     },
   },
   mounted() {},
-  components: { Keep },
+  components: { PublicKeeps },
 };
 </script>
 <style>
 svg {
   display: inline;
+}
+.dropdown-item:hover {
+  cursor: pointer;
+}
+.card:hover {
+  -ms-transform: scale(1.075, 1.075); /* IE 9 */
+  transform: scale(1.075, 1.075); /* Standard syntax */
 }
 </style>

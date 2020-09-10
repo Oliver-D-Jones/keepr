@@ -23,16 +23,16 @@ namespace Keepr.Services
         {
             return _repo.Get (vaultId, userId);
         }
-        public RefVaultKeep GetById (int id)
+        public VaultKeep GetById (int id)
         {
-            RefVaultKeep foundVK = _repo.GetById (id);
+            VaultKeep foundVK = _repo.GetById (id);
             if (foundVK == null)
             {
-                throw new Exception ("Invalid RefVaultKeep Id");
+                throw new Exception ("Invalid VaultKeep Id");
             }
             return foundVK;
         }
-        internal RefVaultKeep Create (RefVaultKeep newVaultKeep)
+        internal VaultKeep Create (VaultKeep newVaultKeep)
         {
             Keep foundKeep = _keepsService.GetById (newVaultKeep.KeepId);
             foundKeep.Keeps = foundKeep.Keeps + 1;

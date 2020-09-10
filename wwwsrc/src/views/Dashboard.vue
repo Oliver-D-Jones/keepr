@@ -1,27 +1,36 @@
 <template>
   <div class="dashboard container" v-if="show">
     <div class="row mt-3">
-      <div class="col-12" style="text-align: end;" v-if="$auth.isAuthenticated">
-        <router-link class="d-inline nav-link mr-1" style="max-width:2rem" :to="{ name: 'mykeeps' }">
+      <div class="col-12" style="text-align: center;" v-if="$auth.isAuthenticated">
+        <router-link
+          class="d-inline nav-link mr-1"
+          style="max-width:3rem"
+          :to="{ name: 'mykeeps' }"
+        >
           <img
             src="../assets/keep_icon.png"
             alt
             class="img-fluid border rounded"
             style="max-width: inherit;"
           />
+          <span style="font-size: x-large;">eeps</span>
         </router-link>
-        <router-link class="d-inline nav-link ml-1" style="max-width:2rem" :to="{ name: 'vaults' }">
+        <router-link class="d-inline nav-link ml-1" style="max-width:3rem" :to="{ name: 'vaults' }">
           <img
             src="../assets/vault_icon.png"
             alt
             class="img-fluid border rounded"
             style="max-width: inherit;"
           />
+          <span style="font-size: x-large;">aults</span>
         </router-link>
       </div>
     </div>
 
-    <form class="row justify-content-center bg-light border my-3 py-2">
+    <form
+      class="row justify-content-center bg-secondary my-3 py-2"
+      style="border: ridge .3rem blue;border-radius:1%"
+    >
       <div class="col-12" style="text-align:center;">
         <h3>Create New Keep</h3>
       </div>
@@ -66,16 +75,15 @@ export default {
   methods: {
     postKeep() {
       this.$store.dispatch("addKeep", this.newKeep);
-      this.newKeep = {};
+      this.newKeep = { isPrivate: false };
     },
   },
   mounted() {
     this.show = true;
   },
-  computed: {
-
-  },
+  computed: {},
 };
 </script>
 
-<style></style>
+<style scoped>
+</style>

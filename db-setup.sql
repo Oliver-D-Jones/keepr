@@ -39,7 +39,7 @@
 -- INNER JOIN keeps k ON k.id = vk.keepId 
 -- WHERE (vaultId = @vaultId AND vk.userId = @userId)
 
-SELECT * FROM vaults;
+-- SELECT * FROM keeps;
 
 
 -- -- USE THIS TO CLEAN OUT YOUR DATABASE

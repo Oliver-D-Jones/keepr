@@ -8,9 +8,12 @@
     </div>
 
     <div class="row">
-      <div class="col-3" v-for="mk in keeps" :key="keyId()">
-        <div class="card bg-dark text-light">
-          <img :src="mk.img" class="card-img-top img-fluid" alt />
+      <div class="col-3 invisible my-3 shadow" v-for="mk in keeps" :key="keyId()">
+        <div
+          class="bg-light text-dark visible card text-light rounded"
+          style="box-shadow: black 12px 12px 12px 4px;"
+        >
+          <img :src="mk.img" class="card-img-top img-fluid" style="height:33vh" />
           <div class="row justify-content-center text-center mt-1 py-1">
             <div class="col-4">
               <svg
@@ -68,17 +71,25 @@
           <div class="card-body">
             <h5 class="card-title">{{mk.name}}</h5>
             <p class="card-text">{{mk.description}}.</p>
-            <button class="btn btn-warning" @click="removeFromVault(mk.vaultKeepId)">Remove From Vault</button>
+            <button
+              class="btn btn-warning btn-block my-2"
+              @click="removeFromVault(mk.vaultKeepId)"
+            >Remove From Vault</button>
             <div class="dropdown">
               <button
-                class="btn btn-secondary dropdown-toggle text-dark"
+                class="btn btn-secondary btn-block dropdown-toggle text-dark"
                 type="button"
                 :id="'keep-'+ mk.id"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-              >Add As Keep</button>
-              <div class="dropdown-menu bg-info" :aria-labelledby="'keep-'+ mk.id">
+              >Add To Other Vault</button>
+              <div
+                class="dropdown-menu bg-info"
+                :aria-labelledby="'keep-'+ mk.id"
+                style="width: -webkit-fill-available;"
+              >
+                <p class="bg-light text-dark" style="text-align: center;">--- Your Vaults ---</p>
                 <h6
                   class="dropdown-item bg-dark text-light rounded"
                   v-for="vault in userVaults"
@@ -111,6 +122,13 @@ export default {
     userVaults() {
       return this.$store.state.userVaults;
     },
+    addToVault(vaultId, keepId) {
+      let newVaultKeep = {
+        VaultId: vaultId,
+        KeepId: keepId,
+      };
+      this.$store.dispatch("addToVault", newVaultKeep);
+    },
   },
   mounted() {
     this.$store.dispatch("getActiveVault", this.$route.params.vaultId);
@@ -119,11 +137,12 @@ export default {
   },
   methods: {
     keyId() {
-      return "x" + (Math.random().toString(36) + "id").substr(2, 16);
+      return "id" + Math.random().toString(36).substr(2, 16);
     },
-    removeFromVault(vkId){
-      console.log(vkId);
-      this.$store.dispatch("removeFromVault",vkId)
+    removeFromVault(vkId) {
+      let vaultId = this.$route.params.vaultId
+      console.log(vaultId);
+      this.$store.dispatch("removeFromVault", vkId,vaultId);
     },
   },
   components: {},
@@ -136,4 +155,7 @@ export default {
 
 
 <style scoped>
+.dropdown-toggle::after {
+  margin-left: 25%;
+}
 </style>

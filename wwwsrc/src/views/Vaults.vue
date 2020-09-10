@@ -1,6 +1,6 @@
 <template>
-  <div class="vaults container-fluid" v-if="show">
-    <form class="row my-3 py-2 bg-light justify-content-center border">
+  <div class="vaults container" v-if="show">
+    <form class="row my-3 py-4 bg-light justify-content-center rounded">
       <div class="col-6">
         <input
           type="text"
@@ -25,13 +25,16 @@
       <div v-if="userVaults == ''" class="col-12">No Vaults yet.</div>
       <div
         v-else
-        class="col-3 border rounded bg-light text-dark"
+        class="col-3 my-2 invisible"
         style="text-align:center;"
         v-for="vault in userVaults"
         :key="vault.id"
       >
-        <router-link :to="{name: 'vault', params: {vaultId: vault.id}}">
-          <h5 class>
+        <router-link class="vault_link" :to="{name: 'vault', params: {vaultId: vault.id}}">
+          <h5
+            class="router_link visible rounded bg-light text-dark p-2"
+            style="font-weight:bolder;box-shadow: black 12px 12px 12px 4px;"
+          >
             {{vault.name}}
             <br />
             <span>{{vault.description}}</span>
@@ -60,6 +63,7 @@ export default {
   methods: {
     postVault() {
       this.$store.dispatch("addVault", this.newVault);
+      this.newVault = {};
     },
   },
   beforeDestroy() {
@@ -75,4 +79,12 @@ export default {
 
 
 <style scoped>
+.vault_link:hover {
+  text-decoration-line: none;
+}
+.router_link:hover {
+  color: red;
+  -ms-transform: scale(1.075, 1.075); /* IE 9 */
+  transform: scale(1.075, 1.075); /* Standard syntax */
+}
 </style>

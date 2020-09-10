@@ -57,7 +57,9 @@ namespace Keepr.Services
                     updatedKeep.IsPrivate = foundKeep.IsPrivate;
                 }
             }
-            else if (userClaim == "nonAuthor123")
+            else if (updatedKeep.Views > foundKeep.Views ||
+                updatedKeep.Keeps > foundKeep.Keeps ||
+                updatedKeep.Shares > foundKeep.Shares)
             {
                 updatedKeep.Name = foundKeep.Name;
                 updatedKeep.Description = foundKeep.Description;
@@ -70,7 +72,7 @@ namespace Keepr.Services
             }
             else
             {
-                throw new Exception ("Not Owner Of Vault!");
+                throw new Exception ("Not Owner Of Keep!");
             }
 
             bool updated = _repo.Update (updatedKeep);
@@ -82,9 +84,8 @@ namespace Keepr.Services
         }
         public string Delete (string userId, int id)
         {
-            GetById (id);
-            bool delorted = _repo.Delete (userId, id);
-            if (!delorted)
+            bool isdDeleted = _repo.Delete (userId, id);
+            if (!isdDeleted)
             {
                 throw new Exception ("Not the author of Keep!");
             }

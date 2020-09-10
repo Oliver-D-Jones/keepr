@@ -41,7 +41,7 @@ namespace Keepr.Controllers
         }
         
         [HttpPost]
-        public ActionResult<RefVaultKeep> Create([FromBody] RefVaultKeep newVaultKeep)
+        public ActionResult<VaultKeep> Create([FromBody] VaultKeep newVaultKeep)
         {
             try
             {
