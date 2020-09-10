@@ -1,6 +1,6 @@
 <template>
   <div class="publickeeps row">
-    <div class="col-3 invisible my-3 shadow" v-for="pk in publicKeeps" :key="pk.id">
+    <div class="col-sm-12 col-md-3 invisible my-3 shadow" v-for="pk in publicKeeps" :key="pk.id">
       <div
         class="bg-light text-dark visible card text-light rounded"
         style="box-shadow: black 12px 12px 12px 4px;"
@@ -66,7 +66,21 @@
         <div class="card-body" v-if="viewed == pk.id">
           <h5 class="card-title">{{pk.name}}</h5>
           <p class="card-text">{{pk.description}}.</p>
-          <div class="dropdown">
+
+          <!-- <div class="btn-group dropup">
+            <button
+              type="button"
+              class="btn btn-secondary dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Dropup</button>
+            <div class="dropdown-menu">
+              Dropdown menu links
+            </div>
+          </div>-->
+
+          <div class="btn-group dropup" style="width: -webkit-fill-available;">
             <button
               class="btn btn-info btn-block dropdown-toggle text-dark"
               type="button"
@@ -80,7 +94,10 @@
               :aria-labelledby="'vault-'+ pk.id"
               style="width: -webkit-fill-available;"
             >
-              <p class="bg-light text-dark" style="text-align: center;font-weight: bolder;">--- Your Vaults ---</p>
+              <p
+                class="bg-light text-dark"
+                style="text-align: center;font-weight: bolder;"
+              >--- Your Vaults ---</p>
               <h6
                 class="dropdown-item bg-dark text-light rounded"
                 v-for="vault in userVaults"
@@ -150,5 +167,4 @@ export default {
 .dropdown-toggle::after {
   margin-left: 25%;
 }
-
 </style>

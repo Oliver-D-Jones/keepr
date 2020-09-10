@@ -50,7 +50,7 @@
 -- INSERT INTO keeps
 -- (name,description,userId,img,isPrivate,views,shares,keeps)
 -- VALUES
--- ("Ollie", "It's 1:22PM ; 9/5/2020", "superSecret1981","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQiEdhq7a4aHGvv8FxjKUpAg_godVfcyLzHSg&usqp=CAU",0,0,0,0) 
+-- ("Ollie", "It's 1:22PM ; 9/10/2020", "superSecret1981","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQiEdhq7a4aHGvv8FxjKUpAg_godVfcyLzHSg&usqp=CAU",0,0,0,0) 
 -- INSERT INTO
 --     vaultkeeps (vaultId, keepId, userId)
 -- VALUES
@@ -59,4 +59,4 @@
 -- (name,description,userId)
 -- VALUES
 -- ("Ollie", "First Vault ; 9/5/2020", "superSecret1981") 
---  SELECT * FROM vaults;
+ SELECT * FROM keeps;

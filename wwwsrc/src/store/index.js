@@ -142,11 +142,12 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    deleteVault({commit},vaultId){
+    deleteVault({commit,dispatch},vaultId){
       try {
         api.delete('vaults/' + vaultId)
           .then(res => {
             console.log(res.data);
+            dispatch("getUserVaults");
             // commit("setActiveVault", res.data)
           })
       } catch (error) {

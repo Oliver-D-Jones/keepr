@@ -12,7 +12,7 @@
     </div>
 
     <div class="row justify-content-center pt-3" v-else-if="show">
-      <div class="col-3 invisible my-3 shadow" v-for="mk in userKeeps" :key="mk.id">
+      <div class="col-sm-12 col-md-3 invisible my-3 shadow" v-for="mk in userKeeps" :key="mk.id">
         <div
           class="bg-light text-dark visible card text-light rounded"
           style="box-shadow: black 12px 12px 12px 4px;"
@@ -79,7 +79,7 @@
               <button class="btn btn-warning btn-block" @click="deleteKeep(mk.id)">Delete Keep</button>
               <button class="btn btn-danger btn-block" @click="makePublic(mk.id)">Make Public</button>
             </div>
-            <div class="dropdown mt-2">
+            <div class="btn-group dropup mt-2" style="width: -webkit-fill-available;">
               <button
                 class="btn btn-secondary btn-block dropdown-toggle text-dark"
                 type="button"

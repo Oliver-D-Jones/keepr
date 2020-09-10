@@ -1,7 +1,7 @@
 <template>
   <div class="vault container-fluid" v-if="vault.name">
     <div class="row justify-content-center">
-      <div class="col-12" style="text-align:center;">
+      <div class="col-sm-12 col-md-12" style="text-align:center;">
         <h1>{{vault.name}}</h1>
         <h5>{{vault.description}}</h5>
         <button class="btn btn-lg btn-warning" @click="deleteVault(vault.id)">Delete Vault</button>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="row">
-      <div class="col-3 invisible my-3 shadow" v-for="mk in keeps" :key="keyId()">
+      <div class="col-sm-12 col-md-3 invisible my-3 shadow" v-for="mk in keeps" :key="keyId()">
         <div
           class="bg-light text-dark visible card text-light rounded"
           style="box-shadow: black 12px 12px 12px 4px;"
@@ -76,7 +76,7 @@
               class="btn btn-warning btn-block my-2"
               @click="removeFromVault(mk.vaultKeepId)"
             >Remove From Vault</button>
-            <div class="dropdown">
+            <div class="btn-group dropup" style="width: -webkit-fill-available;">
               <button
                 class="btn btn-secondary btn-block dropdown-toggle text-dark"
                 type="button"
@@ -123,13 +123,6 @@ export default {
     userVaults() {
       return this.$store.state.userVaults;
     },
-    addToVault(vaultId, keepId) {
-      let newVaultKeep = {
-        VaultId: vaultId,
-        KeepId: keepId,
-      };
-      this.$store.dispatch("addToVault", newVaultKeep);
-    },
   },
   mounted() {
     this.$store.dispatch("getActiveVault", this.$route.params.vaultId);
@@ -142,12 +135,22 @@ export default {
     },
     removeFromVault(vkId) {
       let vaultId = this.$route.params.vaultId;
-      console.log(vaultId);
       this.$store.dispatch("removeFromVault", vkId, vaultId);
     },
     deleteVault(vaultId) {
       this.$store.dispatch("deleteVault", vaultId);
       this.$router.push({ name: "vaults" });
+    },
+    addToVault(vaultId, keepId) {
+      let newVaultKeep = {
+        VaultId: vaultId,
+        KeepId: keepId,
+      };
+      if (vaultId == this.$route.params.vaultId) {
+        alert("Already in Current Vault.");
+        return;
+      }
+      this.$store.dispatch("addToVault", newVaultKeep);
     },
   },
   components: {},

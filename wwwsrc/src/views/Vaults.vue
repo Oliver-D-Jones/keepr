@@ -1,7 +1,7 @@
 <template>
   <div class="vaults container" v-if="show">
     <form class="row my-3 py-4 bg-light justify-content-center rounded">
-      <div class="col-6">
+      <div class="col-sm-12 col-md-6">
         <input
           type="text"
           class="form-control"
@@ -9,7 +9,7 @@
           placeholder="Enter Vault Name"
         />
       </div>
-      <div class="col-6">
+      <div class="col-sm-12 col-md-6">
         <input
           class="form-control"
           type="text"
@@ -25,7 +25,7 @@
       <div v-if="userVaults == ''" class="col-12">No Vaults yet.</div>
       <div
         v-else
-        class="col-3 my-2 invisible"
+        class="col-sm-12 col-md-3 my-2 invisible"
         style="text-align:center;"
         v-for="vault in userVaults"
         :key="vault.id"
