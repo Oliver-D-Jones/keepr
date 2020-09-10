@@ -49,15 +49,20 @@
           placeholder="Description"
         ></textarea>
       </div>
-      <div class="col-12" style="text-align: center;">
-        <div class @click="newKeep.isPrivate = !newKeep.isPrivate">
-          <h5 class v-if="newKeep.isPrivate">Private</h5>
-          <h5 class v-else-if="!newKeep.isPrivate">Public</h5>
-          <i class="fa fa-toggle-on fa-3x" v-if="newKeep.isPrivate"></i>
-          <i class="fa fa-toggle-off fa-3x" v-else></i>
-        </div>
-        <button type="button" class="btn btn-primary my-2" @click="postKeep">Keep It</button>
+      <div class="col-12 custom-control custom-switch" style="text-align: center;">
+        <input
+          type="checkbox"
+          @change="newKeep.isPrivate = !newKeep.isPrivate"
+          class="custom-control-input"
+          style="text-align: center;"
+          id="isPrivate"
+        />
+        <label class="custom-control-label" for="isPrivate">
+          <h5 v-if="newKeep.isPrivate">Private</h5>
+          <h5 v-else>Public</h5>
+        </label>
       </div>
+      <button type="button" class="btn btn-primary my-2" @click="postKeep">Keep It</button>
     </form>
   </div>
 </template>
