@@ -4,6 +4,7 @@
       <div class="col-12" style="text-align:center;">
         <h1>{{vault.name}}</h1>
         <h5>{{vault.description}}</h5>
+        <button class="btn btn-lg btn-warning" @click="deleteVault(vault.id)">Delete Vault</button>
       </div>
     </div>
 
@@ -140,9 +141,13 @@ export default {
       return "id" + Math.random().toString(36).substr(2, 16);
     },
     removeFromVault(vkId) {
-      let vaultId = this.$route.params.vaultId
+      let vaultId = this.$route.params.vaultId;
       console.log(vaultId);
-      this.$store.dispatch("removeFromVault", vkId,vaultId);
+      this.$store.dispatch("removeFromVault", vkId, vaultId);
+    },
+    deleteVault(vaultId) {
+      this.$store.dispatch("deleteVault", vaultId);
+      this.$router.push({ name: "vaults" });
     },
   },
   components: {},

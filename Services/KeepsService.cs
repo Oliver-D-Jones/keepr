@@ -26,7 +26,7 @@ namespace Keepr.Services
             }
             return foundKeep;
         }
-        public IEnumerable<VaultKeepViewModel> Get (string userId)
+        public IEnumerable<Keep> Get (string userId)
         {
             return _repo.Get (userId);
         }

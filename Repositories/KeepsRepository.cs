@@ -21,11 +21,11 @@ namespace Keepr.Repositories
             return _db.Query<Keep> (sql);
         }
         //NOTE GET USER KEEPS
-        internal IEnumerable<VaultKeepViewModel> Get (string userId)
+        internal IEnumerable<Keep> Get (string userId)
         {
             string sql = @"
             SELECT * FROM Keeps WHERE userId = @userId";
-            return _db.Query<VaultKeepViewModel> (sql, new { userId });
+            return _db.Query<Keep> (sql, new { userId });
         }
 
         internal Keep GetById (int id)

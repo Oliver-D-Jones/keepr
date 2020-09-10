@@ -142,6 +142,17 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+    deleteVault({commit},vaultId){
+      try {
+        api.delete('vaults/' + vaultId)
+          .then(res => {
+            console.log(res.data);
+            // commit("setActiveVault", res.data)
+          })
+      } catch (error) {
+        console.error(error);
+      }
+    },
     //#endregion --- VAULTS -----
 
     //#region -- VAULT KEEPS ----
